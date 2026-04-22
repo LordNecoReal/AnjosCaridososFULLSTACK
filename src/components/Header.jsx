@@ -1,7 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Header = ({ activePage, setActivePage, theme, toggleTheme }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    // Criar elemento de áudio
+    audioRef.current = new Audio('/musicas/Monoria Cathedral - Chrono Trigger.mp3');
+    audioRef.current.loop = true; // Opcional: fazer a música repetir
+    
+    // Limpar ao desmontar
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(error => {
+          console.error('Erro ao reproduzir música:', error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <header style={{
@@ -12,6 +41,47 @@ const Header = ({ activePage, setActivePage, theme, toggleTheme }) => {
       position: 'relative',
       backdropFilter: 'blur(10px)'
     }}>
+      <style>
+        {`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(5deg); }
+            75% { transform: translateY(5px) rotate(-5deg); }
+          }
+          
+          @keyframes swing {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+          }
+          
+          .animated-angel {
+            display: inline-block;
+            animation: float 2s ease-in-out infinite;
+          }
+          
+          .animated-angel:nth-child(2) {
+            animation-delay: 0.3s;
+          }
+          
+          .music-btn {
+            transition: all 0.3s ease;
+          }
+          
+          .music-btn:hover {
+            transform: scale(1.1);
+          }
+          
+          @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+          }
+          
+          .playing-indicator {
+            animation: pulse 1.5s ease-in-out infinite;
+          }
+        `}
+      </style>
+      
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -19,7 +89,11 @@ const Header = ({ activePage, setActivePage, theme, toggleTheme }) => {
         flexWrap: 'wrap'
       }}>
         <div style={{ flex: 1 }}>
-          <h1 style={{ margin: 0, fontSize: 'clamp(18px, 5vw, 24px)' }}>Anjos Caridosos</h1>
+          <h1 style={{ margin: 0, fontSize: 'clamp(18px, 5vw, 24px)' }}>
+            <span className="animated-angel">😇</span>
+            {' '}Anjos Caridosos{' '}
+            <span className="animated-angel" style={{ animationDelay: '0.5s' }}>👼</span>
+          </h1>
           <p style={{ margin: '5px 0 0 0', fontSize: 'clamp(11px, 3vw, 14px)' }}>
             Anjos na terra atuando como voluntários(as)
           </p>
@@ -89,6 +163,33 @@ const Header = ({ activePage, setActivePage, theme, toggleTheme }) => {
           >
             Dados
           </button>
+          
+          {/* Botão do player de música */}
+          <button 
+            onClick={toggleMusic}
+            className="music-btn"
+            style={{
+              background: 'none',
+              fontSize: '20px',
+              padding: '8px 12px',
+              position: 'relative'
+            }}
+            title={isPlaying ? 'Pausar música' : 'Tocar música'}
+          >
+            {isPlaying ? '⏸️' : '▶️'} 🎵
+            {isPlaying && (
+              <span className="playing-indicator" style={{
+                position: 'absolute',
+                bottom: '2px',
+                right: '2px',
+                fontSize: '10px'
+              }}>
+                🎶
+              </span>
+            )}
+          </button>
+          
+          {/* Botão do tema */}
           <button onClick={toggleTheme} className="theme-toggle" style={{
             background: 'none',
             fontSize: '20px',
@@ -157,6 +258,20 @@ const Header = ({ activePage, setActivePage, theme, toggleTheme }) => {
           >
             Dados de Voluntários
           </button>
+          
+          {/* Player de música no menu mobile */}
+          <button onClick={() => {
+            toggleMusic();
+            setMobileMenuOpen(false);
+          }} style={{
+            background: 'none',
+            width: '100%',
+            textAlign: 'center',
+            margin: '5px 0'
+          }}>
+            {isPlaying ? '⏸️ Pausar Música 🎵' : '▶️ Tocar Música 🎵'}
+          </button>
+          
           <button onClick={() => {
             toggleTheme();
             setMobileMenuOpen(false);
