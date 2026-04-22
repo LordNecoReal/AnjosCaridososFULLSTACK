@@ -1,8 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/anjoscaridosos/$1" }
-  ],
-  "buildCommand": "cd anjoscaridosos && npm install && npm run build",
-  "outputDirectory": "anjoscaridosos/dist",
-  "installCommand": "cd anjoscaridosos && npm install"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite"
 }
