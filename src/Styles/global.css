@@ -500,3 +500,176 @@ body.dark-mode .toast-danger {
     min-width: auto;
   }
 }
+/* ============================================
+   MODAL DE CONFIRMAÇÃO - CORRIGIDO (ALTO CONTRASTE)
+   ============================================ */
+
+/* Overlay do modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8); /* Mais escuro para melhor contraste */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Conteúdo do modal - Light Mode (ALTO CONTRASTE) */
+body.light-mode .modal-content {
+  background: #ffffff !important;
+  border-radius: 12px;
+  padding: 30px;
+  min-width: 400px;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid #ddd;
+}
+
+/* Conteúdo do modal - Dark Mode (ALTO CONTRASTE) */
+body.dark-mode .modal-content {
+  background: #2d2d2d !important;
+  border-radius: 12px;
+  padding: 30px;
+  min-width: 400px;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+}
+
+/* Título do modal - Light Mode */
+body.light-mode .modal-content h3 {
+  color: #333 !important;
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Título do modal - Dark Mode */
+body.dark-mode .modal-content h3 {
+  color: #fff !important;
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Texto do modal - Light Mode */
+body.light-mode .modal-content p {
+  color: #555 !important;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Texto do modal - Dark Mode */
+body.dark-mode .modal-content p {
+  color: #ccc !important;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Botões do modal - Container */
+.modal-content .modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Botão SIM / SALVAR (Verde) */
+.modal-content .btn-primary {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-content .btn-primary:hover {
+  background-color: #45a049 !important;
+  transform: translateY(-2px);
+}
+
+/* Botão NÃO / CANCELAR (Laranja) */
+.modal-content .btn-warning {
+  background-color: #ff9800 !important;
+  color: white !important;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-content .btn-warning:hover {
+  background-color: #e68900 !important;
+  transform: translateY(-2px);
+}
+
+/* Botão CANCELAR ALTERAÇÕES (Vermelho) */
+.modal-content .btn-danger {
+  background-color: #f44336 !important;
+  color: white !important;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-content .btn-danger:hover {
+  background-color: #da190b !important;
+  transform: translateY(-2px);
+}
+
+/* Responsividade do modal para mobile */
+@media (max-width: 768px) {
+  .modal-content {
+    min-width: 90% !important;
+    max-width: 90% !important;
+    margin: 10px !important;
+    padding: 20px !important;
+  }
+  
+  body.light-mode .modal-content,
+  body.dark-mode .modal-content {
+    min-width: 90% !important;
+    padding: 20px !important;
+  }
+  
+  .modal-content .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .modal-content .btn-primary,
+  .modal-content .btn-warning,
+  .modal-content .btn-danger {
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .modal-content h3 {
+    font-size: 18px !important;
+  }
+  
+  .modal-content p {
+    font-size: 14px !important;
+  }
+}
