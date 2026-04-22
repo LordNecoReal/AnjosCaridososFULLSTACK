@@ -1,0 +1,287 @@
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.cadastro-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease;
+}
+@media (max-width: 768px) {
+  .cadastro-page {
+    padding: 15px;
+  }
+}
+.cadastro-page .cadastro-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card {
+    padding: 20px;
+    border-radius: 8px;
+  }
+}
+body.dark-mode .cadastro-page .cadastro-card {
+  background: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.cadastro-page .cadastro-card .cadastro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .cadastro-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+.cadastro-page .cadastro-card .cadastro-header h2 {
+  color: #4caf50;
+  font-size: clamp(20px, 5vw, 28px);
+  margin: 0;
+}
+.cadastro-page .cadastro-card .cadastro-header button {
+  padding: 10px 20px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .cadastro-header button {
+    white-space: normal;
+  }
+}
+.cadastro-page .cadastro-card .limites-editor {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  animation: slideDown 0.3s ease;
+  background: rgba(76, 175, 80, 0.05);
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .limites-editor {
+    padding: 15px;
+  }
+}
+body.dark-mode .cadastro-page .cadastro-card .limites-editor {
+  background: rgba(76, 175, 80, 0.1);
+}
+.cadastro-page .cadastro-card .limites-editor h3 {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: clamp(18px, 4vw, 22px);
+}
+.cadastro-page .cadastro-card .limites-editor .tabela-limites {
+  overflow-x: auto;
+}
+.cadastro-page .cadastro-card .limites-editor .tabela-limites table {
+  min-width: 300px;
+  width: 100%;
+}
+.cadastro-page .cadastro-card .limites-editor .tabela-limites table input {
+  width: 80px;
+  padding: 5px;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .limites-editor .tabela-limites table input {
+    width: 70px;
+  }
+}
+.cadastro-page .cadastro-card .limites-editor .btn-add-cargo {
+  margin-top: 15px;
+}
+.cadastro-page .cadastro-card .vagas-container {
+  margin-bottom: 30px;
+  overflow-x: auto;
+}
+.cadastro-page .cadastro-card .vagas-container h3 {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: clamp(18px, 4vw, 22px);
+}
+.cadastro-page .cadastro-card .vagas-container table {
+  min-width: 300px;
+  width: 100%;
+}
+.cadastro-page .cadastro-card .vagas-container table .vaga-disponivel {
+  color: #4caf50;
+  font-weight: bold;
+}
+.cadastro-page .cadastro-card .vagas-container table .vaga-esgotada {
+  color: #f44336;
+  font-weight: bold;
+}
+.cadastro-page .cadastro-card form .form-group {
+  margin-bottom: 20px;
+}
+.cadastro-page .cadastro-card form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card form .form-group label {
+    font-size: 13px;
+  }
+}
+.cadastro-page .cadastro-card form .form-group input, .cadastro-page .cadastro-card form .form-group select, .cadastro-page .cadastro-card form .form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+body.dark-mode .cadastro-page .cadastro-card form .form-group input, body.dark-mode .cadastro-page .cadastro-card form .form-group select, body.dark-mode .cadastro-page .cadastro-card form .form-group textarea {
+  background: #333;
+  color: #e0e0e0;
+  border-color: #444;
+}
+.cadastro-page .cadastro-card form .form-group input:focus, .cadastro-page .cadastro-card form .form-group select:focus, .cadastro-page .cadastro-card form .form-group textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cadastro-page .cadastro-card form .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.cadastro-page .cadastro-card form .form-group small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.cadastro-page .cadastro-card form .form-group .foto-preview {
+  margin-top: 10px;
+  text-align: center;
+}
+.cadastro-page .cadastro-card form .form-group .foto-preview img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.cadastro-page .cadastro-card form .form-group .foto-preview p {
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.7;
+}
+.cadastro-page .cadastro-card form .btn-submit {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card form .btn-submit {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+.cadastro-page .cadastro-card .alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+.cadastro-page .cadastro-card .alert-overlay .alert-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+body.dark-mode .cadastro-page .cadastro-card .alert-overlay .alert-box {
+  background: #1e1e1e;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .alert-overlay .alert-box {
+    padding: 20px;
+    width: 85%;
+  }
+}
+.cadastro-page .cadastro-card .alert-overlay .alert-box p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+@media (max-width: 768px) {
+  .cadastro-page .cadastro-card .alert-overlay .alert-box p {
+    font-size: 14px;
+  }
+}
+.cadastro-page .cadastro-card .alert-overlay .alert-box button {
+  padding: 10px 30px;
+  font-size: 14px;
+}
+.cadastro-page .cadastro-card .alert-overlay .alert-box.alert-success {
+  border-top: 4px solid #4caf50;
+}
+.cadastro-page .cadastro-card .alert-overlay .alert-box.alert-danger {
+  border-top: 4px solid #f44336;
+}
+
+.btn-warning {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-warning:hover {
+  background-color: rgb(204, 121.6, 0);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+}/*# sourceMappingURL=CadastroVoluntarios.css.map */

@@ -1,0 +1,220 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.modal-edicao-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay {
+    padding: 10px;
+    align-items: center;
+  }
+}
+.modal-edicao-overlay .modal-edicao-content {
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay .modal-edicao-content {
+    max-height: 85vh;
+    border-radius: 8px;
+  }
+}
+body.dark-mode .modal-edicao-overlay .modal-edicao-content {
+  background: #1e1e1e;
+}
+.modal-edicao-overlay .modal-edicao-content::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-edicao-overlay .modal-edicao-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.modal-edicao-overlay .modal-edicao-content::-webkit-scrollbar-thumb {
+  background: #4caf50;
+  border-radius: 4px;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 1;
+}
+body.dark-mode .modal-edicao-overlay .modal-edicao-content .modal-header {
+  border-bottom-color: #444;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay .modal-edicao-content .modal-header {
+    padding: 15px;
+  }
+}
+.modal-edicao-overlay .modal-edicao-content .modal-header h2 {
+  margin: 0;
+  color: #4caf50;
+  font-size: clamp(18px, 5vw, 24px);
+}
+.modal-edicao-overlay .modal-edicao-content .modal-header .modal-close {
+  cursor: pointer;
+  font-size: 28px;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-header .modal-close:hover {
+  transform: scale(1.1);
+  color: #ff9800;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body {
+  padding: 20px;
+  flex: 1;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay .modal-edicao-content .modal-body {
+    padding: 15px;
+  }
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group {
+  margin-bottom: 18px;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: inherit;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay .modal-edicao-content .modal-body .form-group label {
+    font-size: 13px;
+  }
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group input, .modal-edicao-overlay .modal-edicao-content .modal-body .form-group select, .modal-edicao-overlay .modal-edicao-content .modal-body .form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+body.dark-mode .modal-edicao-overlay .modal-edicao-content .modal-body .form-group input, body.dark-mode .modal-edicao-overlay .modal-edicao-content .modal-body .form-group select, body.dark-mode .modal-edicao-overlay .modal-edicao-content .modal-body .form-group textarea {
+  background: #333;
+  color: #e0e0e0;
+  border-color: #444;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group input:focus, .modal-edicao-overlay .modal-edicao-content .modal-body .form-group select:focus, .modal-edicao-overlay .modal-edicao-content .modal-body .form-group textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group .foto-preview {
+  margin-bottom: 12px;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group .foto-preview img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.modal-edicao-overlay .modal-edicao-content .modal-body .form-group small {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  background: inherit;
+}
+body.dark-mode .modal-edicao-overlay .modal-edicao-content .modal-footer {
+  border-top-color: #444;
+}
+@media (max-width: 768px) {
+  .modal-edicao-overlay .modal-edicao-content .modal-footer {
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .modal-edicao-overlay .modal-edicao-content .modal-footer button {
+    width: 100%;
+    padding: 12px;
+  }
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button:hover {
+  transform: translateY(-2px);
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button.btn-primary {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button.btn-primary:hover {
+  background-color: #388e3c;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button.btn-warning {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.modal-edicao-overlay .modal-edicao-content .modal-footer button.btn-warning:hover {
+  background-color: rgb(204, 121.6, 0);
+}/*# sourceMappingURL=ModalEdicao.css.map */

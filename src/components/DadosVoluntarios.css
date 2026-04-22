@@ -1,0 +1,366 @@
+@charset "UTF-8";
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+.dados-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease;
+}
+@media (max-width: 768px) {
+  .dados-page {
+    padding: 15px;
+  }
+}
+.dados-page .dados-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .dados-page .dados-card {
+    padding: 20px;
+    border-radius: 8px;
+  }
+}
+body.dark-mode .dados-page .dados-card {
+  background: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.dados-page .dados-card h2 {
+  color: #4caf50;
+  font-size: clamp(20px, 5vw, 28px);
+  margin-bottom: 10px;
+}
+.dados-page .dados-card .total-count {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+.dados-page .dados-card .total-count strong {
+  color: #4caf50;
+  font-size: 16px;
+}
+.dados-page .dados-card .loading-container {
+  text-align: center;
+  padding: 40px;
+}
+.dados-page .dados-card .loading-container p {
+  font-size: 16px;
+}
+.dados-page .dados-card .loading-container .loading-spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(76, 175, 80, 0.3);
+  border-top: 4px solid #4caf50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.dados-page .dados-card .empty-state {
+  text-align: center;
+  margin-top: 30px;
+  padding: 60px 20px;
+  background: rgba(76, 175, 80, 0.05);
+  border-radius: 8px;
+}
+.dados-page .dados-card .empty-state p {
+  font-size: 16px;
+  opacity: 0.7;
+}
+.dados-page .dados-card .alert-success {
+  background: #d4edda; /* Fundo sólido verde claro */
+  border-left: 4px solid #4caf50;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  color: #155724; /* Texto verde escuro */
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+body.dark-mode .dados-page .dados-card .alert-success {
+  background: #1e3a2f; /* Fundo verde escuro */
+  color: #a5d6a7; /* Texto verde claro */
+}
+.dados-page .dados-card .mobile-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  animation: slideUp 0.3s ease;
+}
+body.dark-mode .dados-page .dados-card .mobile-cards .voluntario-card {
+  border-color: #444;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .user-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .user-info .user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background: #4caf50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .user-info .user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .user-info h3 {
+  margin: 0;
+  font-size: 18px;
+  word-break: break-word;
+}
+@media (max-width: 768px) {
+  .dados-page .dados-card .mobile-cards .voluntario-card .card-header .user-info h3 {
+    font-size: 16px;
+  }
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .action-buttons {
+  display: flex;
+  gap: 12px;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .action-buttons span {
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .action-buttons span:hover {
+  transform: scale(1.1);
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .action-buttons span:first-child:hover {
+  color: #4caf50;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-header .action-buttons span:last-child:hover {
+  color: #f44336;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-details {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-details p {
+  margin: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-details p strong {
+  min-width: 110px;
+  font-weight: 600;
+}
+.dados-page .dados-card .mobile-cards .voluntario-card .card-details .status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  margin-left: 8px;
+}
+.dados-page .dados-card .desktop-table {
+  overflow-x: auto;
+}
+.dados-page .dados-card .desktop-table table {
+  min-width: 1000px;
+  width: 100%;
+}
+.dados-page .dados-card .desktop-table table th, .dados-page .dados-card .desktop-table table td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+.dados-page .dados-card .desktop-table table th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: 600;
+}
+body.dark-mode .dados-page .dados-card .desktop-table table th {
+  background-color: #388e3c;
+}
+.dados-page .dados-card .desktop-table table td {
+  border-bottom: 1px solid #ddd;
+}
+body.dark-mode .dados-page .dados-card .desktop-table table td {
+  border-bottom-color: #444;
+}
+.dados-page .dados-card .desktop-table table tr:hover {
+  background: rgba(76, 175, 80, 0.05);
+}
+.dados-page .dados-card .desktop-table table .avatar-table {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dados-page .dados-card .desktop-table table .avatar-placeholder {
+  font-size: 30px;
+}
+.dados-page .dados-card .desktop-table table .status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+}
+.dados-page .dados-card .desktop-table table .action-icons {
+  white-space: nowrap;
+}
+.dados-page .dados-card .desktop-table table .action-icons span {
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+.dados-page .dados-card .desktop-table table .action-icons span:hover {
+  transform: scale(1.1);
+}
+.dados-page .dados-card .desktop-table table .action-icons span:first-child:hover {
+  color: #4caf50;
+}
+.dados-page .dados-card .desktop-table table .action-icons span:last-child:hover {
+  color: #f44336;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+.modal-overlay .modal-content {
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  padding: 30px;
+  border-radius: 12px;
+  animation: slideUp 0.3s ease;
+}
+@media (max-width: 768px) {
+  .modal-overlay .modal-content {
+    padding: 20px;
+    width: 85%;
+  }
+}
+.modal-overlay .modal-content h3 {
+  margin-bottom: 20px;
+  font-size: clamp(18px, 4vw, 20px);
+}
+.modal-overlay .modal-content .modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .modal-overlay .modal-content .modal-buttons {
+    gap: 10px;
+  }
+}
+.modal-overlay .modal-content .modal-buttons button {
+  padding: 10px 25px;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .modal-overlay .modal-content .modal-buttons button {
+    padding: 8px 20px;
+  }
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-danger:hover {
+  background-color: rgb(234.1839622642, 27.9622641509, 12.8160377358);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+}/*# sourceMappingURL=DadosVoluntarios.css.map */

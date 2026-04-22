@@ -1,0 +1,450 @@
+// Variáveis
+$primary-color: #4caf50;
+$primary-dark: #388e3c;
+$danger-color: #f44336;
+$warning-color: #ff9800;
+$success-color: #4caf50;
+$text-light: #333;
+$text-dark: #e0e0e0;
+$bg-light: #ffffff;
+$bg-dark: #1e1e1e;
+$border-light: #ddd;
+$border-dark: #444;
+$transition-default: all 0.3s ease;
+
+// Mixins responsivos
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Animações
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Página de Dados
+.dados-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease;
+
+  @include mobile {
+    padding: 15px;
+  }
+
+  .dados-card {
+    background: $bg-light;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    transition: $transition-default;
+
+    @include mobile {
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    body.dark-mode & {
+      background: $bg-dark;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      color: $primary-color;
+      font-size: clamp(20px, 5vw, 28px);
+      margin-bottom: 10px;
+    }
+
+    .total-count {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 20px;
+
+      strong {
+        color: $primary-color;
+        font-size: 16px;
+      }
+    }
+
+    // Loading state
+    .loading-container {
+      text-align: center;
+      padding: 40px;
+
+      p {
+        font-size: 16px;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(76, 175, 80, 0.3);
+        border-top: 4px solid $primary-color;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    }
+
+    // Empty state
+    .empty-state {
+      text-align: center;
+      margin-top: 30px;
+      padding: 60px 20px;
+      background: rgba(76, 175, 80, 0.05);
+      border-radius: 8px;
+
+      p {
+        font-size: 16px;
+        opacity: 0.7;
+      }
+    }
+
+    // Alert messages
+   .alert-success {
+  background: #d4edda;  /* Fundo sólido verde claro */
+  border-left: 4px solid $success-color;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  color: #155724;  /* Texto verde escuro */
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  body.dark-mode & {
+    background: #1e3a2f;  /* Fundo verde escuro */
+    color: #a5d6a7;  /* Texto verde claro */
+  }
+}
+
+    // Cards para mobile
+    .mobile-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .voluntario-card {
+        border: 1px solid $border-light;
+        border-radius: 12px;
+        padding: 15px;
+        transition: $transition-default;
+        animation: slideUp 0.3s ease;
+
+        body.dark-mode & {
+          border-color: $border-dark;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 15px;
+
+          .user-info {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex: 1;
+
+            .user-avatar {
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+              object-fit: cover;
+              background: $primary-color;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 30px;
+
+              img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+              }
+            }
+
+            h3 {
+              margin: 0;
+              font-size: 18px;
+              word-break: break-word;
+
+              @include mobile {
+                font-size: 16px;
+              }
+            }
+          }
+
+          .action-buttons {
+            display: flex;
+            gap: 12px;
+
+            span {
+              cursor: pointer;
+              font-size: 20px;
+              transition: $transition-default;
+
+              &:hover {
+                transform: scale(1.1);
+              }
+
+              &:first-child:hover {
+                color: $primary-color;
+              }
+
+              &:last-child:hover {
+                color: $danger-color;
+              }
+            }
+          }
+        }
+
+        .card-details {
+          font-size: 14px;
+          line-height: 1.8;
+
+          p {
+            margin: 8px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            strong {
+              min-width: 110px;
+              font-weight: 600;
+            }
+          }
+
+          .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+
+    // Tabela para desktop
+    .desktop-table {
+      overflow-x: auto;
+
+      table {
+        min-width: 1000px;
+        width: 100%;
+
+        th, td {
+          padding: 12px;
+          text-align: left;
+          vertical-align: middle;
+        }
+
+        th {
+          background-color: $primary-color;
+          color: white;
+          font-weight: 600;
+
+          body.dark-mode & {
+            background-color: $primary-dark;
+          }
+        }
+
+        td {
+          border-bottom: 1px solid $border-light;
+
+          body.dark-mode & {
+            border-bottom-color: $border-dark;
+          }
+        }
+
+        tr:hover {
+          background: rgba(76, 175, 80, 0.05);
+        }
+
+        .avatar-table {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .avatar-placeholder {
+          font-size: 30px;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: bold;
+          color: white;
+          white-space: nowrap;
+        }
+
+        .action-icons {
+          white-space: nowrap;
+
+          span {
+            cursor: pointer;
+            font-size: 20px;
+            margin: 0 5px;
+            transition: $transition-default;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+
+            &:first-child:hover {
+              color: $primary-color;
+            }
+
+            &:last-child:hover {
+              color: $danger-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Modal de confirmação de exclusão
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+
+  .modal-content {
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    animation: slideUp 0.3s ease;
+
+    @include mobile {
+      padding: 20px;
+      width: 85%;
+    }
+
+    h3 {
+      margin-bottom: 20px;
+      font-size: clamp(18px, 4vw, 20px);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+
+      @include mobile {
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 25px;
+        font-size: 14px;
+
+        @include mobile {
+          padding: 8px 20px;
+        }
+      }
+    }
+  }
+}
+
+// Botões globais
+.btn-danger {
+  background-color: $danger-color;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: $transition-default;
+
+  &:hover {
+    background-color: darken($danger-color, 10%);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: $transition-default;
+
+  &:hover {
+    background-color: $primary-dark;
+    transform: translateY(-2px);
+  }
+}

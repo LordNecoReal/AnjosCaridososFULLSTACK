@@ -1,0 +1,359 @@
+// Variáveis
+$primary-color: #4caf50;
+$primary-dark: #388e3c;
+$warning-color: #ff9800;
+$danger-color: #f44336;
+$success-color: #4caf50;
+$text-light: #333;
+$text-dark: #e0e0e0;
+$bg-light: #ffffff;
+$bg-dark: #1e1e1e;
+$border-light: #e0e0e0;
+$border-dark: #444;
+$transition-default: all 0.3s ease;
+
+// Mixins responsivos
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Animações
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Página de Cadastro
+.cadastro-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.5s ease;
+
+  @include mobile {
+    padding: 15px;
+  }
+
+  .cadastro-card {
+    background: $bg-light;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    transition: $transition-default;
+
+    @include mobile {
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    body.dark-mode & {
+      background: $bg-dark;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    // Header com título e botão
+    .cadastro-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      @include mobile {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      h2 {
+        color: $primary-color;
+        font-size: clamp(20px, 5vw, 28px);
+        margin: 0;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 14px;
+        white-space: nowrap;
+
+        @include mobile {
+          white-space: normal;
+        }
+      }
+    }
+
+    // Editor de limites
+    .limites-editor {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 2px solid $primary-color;
+      border-radius: 8px;
+      animation: slideDown 0.3s ease;
+      background: rgba(76, 175, 80, 0.05);
+
+      @include mobile {
+        padding: 15px;
+      }
+
+      body.dark-mode & {
+        background: rgba(76, 175, 80, 0.1);
+      }
+
+      h3 {
+        color: $primary-color;
+        margin-bottom: 15px;
+        font-size: clamp(18px, 4vw, 22px);
+      }
+
+      .tabela-limites {
+        overflow-x: auto;
+
+        table {
+          min-width: 300px;
+          width: 100%;
+
+          input {
+            width: 80px;
+            padding: 5px;
+            text-align: center;
+
+            @include mobile {
+              width: 70px;
+            }
+          }
+        }
+      }
+
+      .btn-add-cargo {
+        margin-top: 15px;
+      }
+    }
+
+    // Tabela de vagas
+    .vagas-container {
+      margin-bottom: 30px;
+      overflow-x: auto;
+
+      h3 {
+        color: $primary-color;
+        margin-bottom: 15px;
+        font-size: clamp(18px, 4vw, 22px);
+      }
+
+      table {
+        min-width: 300px;
+        width: 100%;
+
+        .vaga-disponivel {
+          color: $success-color;
+          font-weight: bold;
+        }
+
+        .vaga-esgotada {
+          color: $danger-color;
+          font-weight: bold;
+        }
+      }
+    }
+
+    // Formulário
+    form {
+      .form-group {
+        margin-bottom: 20px;
+
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: 600;
+          font-size: 14px;
+
+          @include mobile {
+            font-size: 13px;
+          }
+        }
+
+        input, select, textarea {
+          width: 100%;
+          padding: 10px 12px;
+          border: 1px solid $border-light;
+          border-radius: 6px;
+          font-size: 14px;
+          transition: $transition-default;
+
+          body.dark-mode & {
+            background: #333;
+            color: $text-dark;
+            border-color: $border-dark;
+          }
+
+          &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 80px;
+        }
+
+        small {
+          display: block;
+          margin-top: 5px;
+          font-size: 12px;
+          opacity: 0.7;
+        }
+
+        // Preview da foto
+        .foto-preview {
+          margin-top: 10px;
+          text-align: center;
+
+          img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          p {
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0.7;
+          }
+        }
+      }
+
+      .btn-submit {
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+
+        @include mobile {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    // Alertas
+    .alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+
+      .alert-box {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+        body.dark-mode & {
+          background: $bg-dark;
+        }
+
+        @include mobile {
+          padding: 20px;
+          width: 85%;
+        }
+
+        p {
+          margin-bottom: 20px;
+          font-size: 16px;
+
+          @include mobile {
+            font-size: 14px;
+          }
+        }
+
+        button {
+          padding: 10px 30px;
+          font-size: 14px;
+        }
+
+        &.alert-success {
+          border-top: 4px solid $success-color;
+        }
+
+        &.alert-danger {
+          border-top: 4px solid $danger-color;
+        }
+      }
+    }
+  }
+}
+
+// Estilos globais para botões (caso não estejam no App.css)
+.btn-warning {
+  background-color: $warning-color;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: $transition-default;
+
+  &:hover {
+    background-color: darken($warning-color, 10%);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: $transition-default;
+
+  &:hover {
+    background-color: $primary-dark;
+    transform: translateY(-2px);
+  }
+}

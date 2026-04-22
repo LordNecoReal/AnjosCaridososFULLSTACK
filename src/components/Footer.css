@@ -1,0 +1,55 @@
+.custom-footer {
+  text-align: center;
+  padding: 15px 20px;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  width: 100%;
+  position: relative;
+  bottom: auto;
+  background-color: rgba(51, 51, 51, 0.95);
+}
+.custom-footer.light-mode {
+  background-color: rgba(68, 68, 68, 0.95);
+}
+.custom-footer .footer-text {
+  margin: 0;
+  font-size: clamp(11px, 3vw, 14px);
+}
+.custom-footer .footer-text .author-name {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.custom-footer .footer-text .author-name:hover {
+  text-decoration: underline;
+}
+.custom-footer .footer-text .challenge {
+  color: #ffd700;
+  font-weight: 500;
+}
+@media (max-width: 768px) {
+  .custom-footer {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .custom-footer {
+    padding: 13px 18px;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.custom-footer {
+  animation: fadeInUp 0.5s ease;
+}/*# sourceMappingURL=Footer.css.map */

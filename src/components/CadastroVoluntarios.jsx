@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createVoluntario, getVoluntarios } from '../services/api';
+import './CadastroVoluntarios.scss';
 
 const CadastroVoluntarios = () => {
   const [cargosInfo, setCargosInfo] = useState([]);
@@ -34,7 +35,6 @@ const CadastroVoluntarios = () => {
 
   useEffect(() => {
     carregarCargosInfo();
-    // Carregar limites salvos
     const savedLimites = localStorage.getItem('limitesCargos');
     if (savedLimites) {
       setLimitesCargos(JSON.parse(savedLimites));
@@ -86,17 +86,18 @@ const CadastroVoluntarios = () => {
         setLimitesCargos(novosLimites);
         localStorage.setItem('limitesCargos', JSON.stringify(novosLimites));
         carregarCargosInfo();
-        setAlertMessage(`✅ Cargo "${novoCargo}" adicionado com limite de ${novoLimite}`);
-        setAlertType('success');
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
+        mostrarAlerta(`✅ Cargo "${novoCargo}" adicionado com limite de ${novoLimite}`, 'success');
       }
     } else if (novoCargo && limitesCargos[novoCargo]) {
-      setAlertMessage('❌ Este cargo já existe!');
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta('❌ Este cargo já existe!', 'danger');
     }
+  };
+
+  const mostrarAlerta = (mensagem, tipo) => {
+    setAlertMessage(mensagem);
+    setAlertType(tipo);
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
   const formatTelefone = (value) => {
@@ -121,10 +122,7 @@ const CadastroVoluntarios = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        setAlertMessage('❌ A imagem deve ter no máximo 5MB');
-        setAlertType('danger');
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
+        mostrarAlerta('❌ A imagem deve ter no máximo 5MB', 'danger');
         return;
       }
       
@@ -136,7 +134,6 @@ const CadastroVoluntarios = () => {
           fotoBase64: base64String,
           fotoPreview: base64String
         }));
-        console.log('Foto carregada com sucesso!');
       };
       reader.readAsDataURL(file);
     }
@@ -146,35 +143,23 @@ const CadastroVoluntarios = () => {
     e.preventDefault();
 
     if (!formData.nome.trim()) {
-      setAlertMessage('❌ Por favor, informe o nome completo');
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta('❌ Por favor, informe o nome completo', 'danger');
       return;
     }
 
     if (!formData.telefone.trim()) {
-      setAlertMessage('❌ Por favor, informe o telefone');
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta('❌ Por favor, informe o telefone', 'danger');
       return;
     }
 
     if (!formData.cargo.trim()) {
-      setAlertMessage('❌ Por favor, informe o cargo');
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta('❌ Por favor, informe o cargo', 'danger');
       return;
     }
 
     const cargoExistente = cargosInfo.find(c => c.nome === formData.cargo);
     if (cargoExistente && cargoExistente.esgotado) {
-      setAlertMessage(`❌ Vaga para ${formData.cargo} está esgotada!`);
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta(`❌ Vaga para ${formData.cargo} está esgotada!`, 'danger');
       return;
     }
 
@@ -192,14 +177,10 @@ const CadastroVoluntarios = () => {
         fotoBase64: formData.fotoBase64
       };
 
-      const response = await createVoluntario(voluntarioData);
-      console.log('Cadastro realizado com sucesso:', response);
+      await createVoluntario(voluntarioData);
       
-      setAlertMessage('✅ Cadastro realizado com sucesso!');
-      setAlertType('success');
-      setShowAlert(true);
+      mostrarAlerta('✅ Cadastro realizado com sucesso!', 'success');
 
-      // Limpar formulário
       setFormData({
         nome: '',
         telefone: '',
@@ -215,84 +196,70 @@ const CadastroVoluntarios = () => {
       });
 
       await carregarCargosInfo();
-      setTimeout(() => setShowAlert(false), 3000);
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
-      setAlertMessage('❌ Erro ao cadastrar. Tente novamente!');
-      setAlertType('danger');
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      mostrarAlerta('❌ Erro ao cadastrar. Tente novamente!', 'danger');
     }
   };
 
   return (
-    <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
-        <h2>📝 Cadastro de Voluntários</h2>
-        <button 
-          onClick={() => setShowLimitesEditor(!showLimitesEditor)}
-          className="btn-warning"
-        >
-          {showLimitesEditor ? '📋 Ver Vagas' : '⚙️ Editar Limites'}
-        </button>
-      </div>
-
-      {/* Editor de Limites */}
-      {showLimitesEditor && (
-        <div style={{ 
-          marginBottom: '30px', 
-          padding: '20px', 
-          border: '2px solid #4CAF50',
-          borderRadius: '8px',
-          backgroundColor: document.body.classList.contains('dark-mode') ? 'rgba(61, 61, 61, 0.95)' : 'rgba(249, 249, 249, 0.95)'
-        }}>
-          <h3>⚙️ Configuração de Limites por Cargo</h3>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%' }}>
-              <thead>
-                <tr>
-                  <th>Cargo</th>
-                  <th>Limite Máximo</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(limitesCargos).map(([cargo, limite]) => (
-                  <tr key={cargo}>
-                    <td>{cargo}</td>
-                    <td>
-                      <input
-                        type="number"
-                        value={limite}
-                        onChange={(e) => handleLimiteChange(cargo, e.target.value)}
-                        style={{ width: '80px', padding: '5px' }}
-                        min="0"
-                      />
-                    </td>
-                    <td>
-                      {limite === 999 ? 'Ilimitado' : `${limite} voluntários`}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="cadastro-page">
+      <div className="cadastro-card">
+        <div className="cadastro-header">
+          <h2>📝 Cadastro de Voluntários</h2>
           <button 
-            onClick={adicionarNovoCargo}
-            className="btn-primary"
-            style={{ marginTop: '15px' }}
+            onClick={() => setShowLimitesEditor(!showLimitesEditor)}
+            className="btn-warning"
           >
-            + Adicionar Novo Cargo
+            {showLimitesEditor ? '📋 Ver Vagas' : '⚙️ Editar Limites'}
           </button>
         </div>
-      )}
 
-      {/* Tabela de Vagas */}
-      {!showLimitesEditor && (
-        <div style={{ marginBottom: '30px', overflowX: 'auto' }}>
-          <h3>📊 Vagas Disponíveis por Cargo</h3>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ minWidth: '300px', width: '100%' }}>
+        {/* Editor de Limites */}
+        {showLimitesEditor && (
+          <div className="limites-editor">
+            <h3>⚙️ Configuração de Limites por Cargo</h3>
+            <div className="tabela-limites">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cargo</th>
+                    <th>Limite Máximo</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(limitesCargos).map(([cargo, limite]) => (
+                    <tr key={cargo}>
+                      <td>{cargo}</td>
+                      <td>
+                        <input
+                          type="number"
+                          value={limite}
+                          onChange={(e) => handleLimiteChange(cargo, e.target.value)}
+                          min="0"
+                        />
+                      </td>
+                      <td>{limite === 999 ? 'Ilimitado' : `${limite} voluntários`}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button 
+              onClick={adicionarNovoCargo}
+              className="btn-primary btn-add-cargo"
+            >
+              + Adicionar Novo Cargo
+            </button>
+          </div>
+        )}
+
+        {/* Tabela de Vagas */}
+        {!showLimitesEditor && (
+          <div className="vagas-container">
+            <h3>📊 Vagas Disponíveis por Cargo</h3>
+            <table>
               <thead>
                 <tr>
                   <th>Cargo</th>
@@ -322,150 +289,146 @@ const CadastroVoluntarios = () => {
               </tbody>
             </table>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Formulário */}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Foto do Voluntário</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFotoChange}
-            style={{ marginBottom: '10px' }}
-          />
-          {formData.fotoPreview && (
-            <div style={{ marginTop: '10px', textAlign: 'center' }}>
-              <img 
-                src={formData.fotoPreview} 
-                alt="Preview" 
-                style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px', objectFit: 'cover' }}
-              />
-              <p style={{ fontSize: '12px', marginTop: '5px' }}>Pré-visualização da foto</p>
-            </div>
-          )}
-        </div>
+        {/* Formulário */}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Foto do Voluntário</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFotoChange}
+            />
+            {formData.fotoPreview && (
+              <div className="foto-preview">
+                <img src={formData.fotoPreview} alt="Preview" />
+                <p>Pré-visualização da foto</p>
+              </div>
+            )}
+          </div>
 
-        <div className="form-group">
-          <label>Nome Completo *</label>
-          <input
-            type="text"
-            name="nome"
-            value={formData.nome}
-            onChange={handleChange}
-            required
-            placeholder="Digite seu nome completo"
-          />
-        </div>
+          <div className="form-group">
+            <label>Nome Completo *</label>
+            <input
+              type="text"
+              name="nome"
+              value={formData.nome}
+              onChange={handleChange}
+              required
+              placeholder="Digite seu nome completo"
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Telefone (WhatsApp) *</label>
-          <input
-            type="tel"
-            name="telefone"
-            value={formData.telefone}
-            onChange={handleChange}
-            placeholder="(21) 99999-9999"
-            required
-          />
-          <small style={{ fontSize: '12px', opacity: 0.7 }}>
-            Exemplo: (21) 99999-9999
-          </small>
-        </div>
+          <div className="form-group">
+            <label>Telefone (WhatsApp) *</label>
+            <input
+              type="tel"
+              name="telefone"
+              value={formData.telefone}
+              onChange={handleChange}
+              placeholder="(21) 99999-9999"
+              required
+            />
+            <small>Exemplo: (21) 99999-9999</small>
+          </div>
 
-        <div className="form-group">
-          <label>Gênero *</label>
-          <select name="genero" value={formData.genero} onChange={handleChange} required>
-            <option>Masculino</option>
-            <option>Feminino</option>
-            <option>Outro</option>
-          </select>
-        </div>
+          <div className="form-group">
+            <label>Gênero *</label>
+            <select name="genero" value={formData.genero} onChange={handleChange} required>
+              <option>Masculino</option>
+              <option>Feminino</option>
+              <option>Outro</option>
+            </select>
+          </div>
 
-        <div className="form-group">
-          <label>Cargo/Profissão *</label>
-          <input
-            type="text"
-            name="cargo"
-            value={formData.cargo}
-            onChange={handleChange}
-            list="cargos-sugeridos"
-            placeholder="Digite ou selecione um cargo"
-            required
-          />
-          <datalist id="cargos-sugeridos">
-            {Object.keys(limitesCargos).map(cargo => (
-              <option key={cargo} value={cargo} />
-            ))}
-          </datalist>
-        </div>
+          <div className="form-group">
+            <label>Cargo/Profissão *</label>
+            <input
+              type="text"
+              name="cargo"
+              value={formData.cargo}
+              onChange={handleChange}
+              list="cargos-sugeridos"
+              placeholder="Digite ou selecione um cargo"
+              required
+            />
+            <datalist id="cargos-sugeridos">
+              {Object.keys(limitesCargos).map(cargo => (
+                <option key={cargo} value={cargo} />
+              ))}
+            </datalist>
+          </div>
 
-        <div className="form-group">
-          <label>Descrição do Cargo</label>
-          <textarea
-            name="descricao_cargo"
-            value={formData.descricao_cargo}
-            onChange={handleChange}
-            rows="3"
-            placeholder="Descreva suas atividades/experiência"
-          />
-        </div>
+          <div className="form-group">
+            <label>Descrição do Cargo</label>
+            <textarea
+              name="descricao_cargo"
+              value={formData.descricao_cargo}
+              onChange={handleChange}
+              rows="3"
+              placeholder="Descreva suas atividades/experiência"
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Disponibilidade</label>
-          <input
-            type="text"
-            name="disponibilidade"
-            value={formData.disponibilidade}
-            onChange={handleChange}
-            placeholder="Ex: Segunda a Sexta, 14h-18h"
-          />
-        </div>
+          <div className="form-group">
+            <label>Disponibilidade</label>
+            <input
+              type="text"
+              name="disponibilidade"
+              value={formData.disponibilidade}
+              onChange={handleChange}
+              placeholder="Ex: Segunda a Sexta, 14h-18h"
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Bairro onde mora</label>
-          <input
-            type="text"
-            name="bairro_mora"
-            value={formData.bairro_mora}
-            onChange={handleChange}
-            placeholder="Ex: Copacabana"
-          />
-        </div>
+          <div className="form-group">
+            <label>Bairro onde mora</label>
+            <input
+              type="text"
+              name="bairro_mora"
+              value={formData.bairro_mora}
+              onChange={handleChange}
+              placeholder="Ex: Copacabana"
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Bairro onde pode atuar *</label>
-          <input
-            type="text"
-            name="bairro_atuacao"
-            value={formData.bairro_atuacao}
-            onChange={handleChange}
-            placeholder="Ex: Centro"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Bairro onde pode atuar *</label>
+            <input
+              type="text"
+              name="bairro_atuacao"
+              value={formData.bairro_atuacao}
+              onChange={handleChange}
+              placeholder="Ex: Centro"
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Status</label>
-          <select name="status" value={formData.status} onChange={handleChange}>
-            <option value="disponivel">Disponível</option>
-            <option value="ocupado">Em Treinamento</option>
-            <option value="indisponivel">Indisponível</option>
-          </select>
-        </div>
+          <div className="form-group">
+            <label>Status</label>
+            <select name="status" value={formData.status} onChange={handleChange}>
+              <option value="disponivel">Disponível</option>
+              <option value="ocupado">Em Treinamento</option>
+              <option value="indisponivel">Indisponível</option>
+            </select>
+          </div>
 
-        <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '20px' }}>
-          ✅ Cadastrar Voluntário
-        </button>
-      </form>
-
-      {showAlert && (
-        <div className={`alert alert-${alertType}`}>
-          <p>{alertMessage}</p>
-          <button onClick={() => setShowAlert(false)} style={{ marginTop: '10px' }}>
-            OK
+          <button type="submit" className="btn-primary btn-submit">
+            ✅ Cadastrar Voluntário
           </button>
+        </form>
+      </div>
+
+      {/* Modal de Alertas */}
+      {showAlert && (
+        <div className="alert-overlay" onClick={() => setShowAlert(false)}>
+          <div className={`alert-box alert-${alertType}`} onClick={(e) => e.stopPropagation()}>
+            <p>{alertMessage}</p>
+            <button onClick={() => setShowAlert(false)} className="btn-primary">
+              OK
+            </button>
+          </div>
         </div>
       )}
     </div>
