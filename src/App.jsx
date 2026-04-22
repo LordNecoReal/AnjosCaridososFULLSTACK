@@ -32,7 +32,7 @@ function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="app-container">
       <Header 
         activePage={activePage}
         setActivePage={setActivePage}
@@ -40,11 +40,11 @@ function App() {
         toggleTheme={toggleTheme}
       />
       
-      <main style={{ flex: 1 }}>
+      <main className="app-main">
         {renderPage()}
       </main>
       
-      <Footer />
+      <Footer theme={theme} />  {/* ← ÚNICA MUDANÇA: passei o theme */}
     </div>
   );
 }

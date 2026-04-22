@@ -1,0 +1,244 @@
+// Variáveis
+$primary-color: #4caf50;
+$primary-dark: #388e3c;
+$dark-bg: rgba(45, 45, 45, 0.95);
+$light-bg: rgba(76, 175, 80, 0.95);
+$transition-default: all 0.3s ease;
+
+// Mixins
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin button-reset {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: $transition-default;
+}
+
+// Animações
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(5deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(-5deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Header principal
+.custom-header {
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+
+  // Modo claro (padrão)
+  background-color: $light-bg;
+
+  // Modo escuro
+  &.dark-mode {
+    background-color: $dark-bg;
+  }
+
+  // Container principal
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  // Logo e título
+  .logo-area {
+    flex: 1;
+
+    h1 {
+      margin: 0;
+      font-size: clamp(18px, 5vw, 24px);
+    }
+
+    p {
+      margin: 5px 0 0 0;
+      font-size: clamp(11px, 3vw, 14px);
+    }
+  }
+
+  // Anjos animados
+  .animated-angel {
+    display: inline-block;
+    animation: float 2s ease-in-out infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+  }
+
+  // Botão menu mobile (hambúrguer)
+  .mobile-menu-btn {
+    @include button-reset;
+    color: white;
+    font-size: 28px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: none; // Escondido por padrão no desktop
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    @include mobile {
+      display: block; // Mostra apenas no mobile
+    }
+  }
+
+  // Botões do desktop
+  .desktop-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @include mobile {
+      display: none; // Esconde no mobile
+    }
+
+    button {
+      @include button-reset;
+      color: white;
+      padding: 8px 16px;
+      font-size: clamp(12px, 4vw, 14px);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        background-color: rgba(56, 142, 60, 0.9);
+      }
+    }
+  }
+
+  // Botão de música
+  .music-btn {
+    position: relative;
+    font-size: 20px;
+    padding: 8px 12px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    .playing-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      font-size: 10px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+  }
+
+  // Botão de tema
+  .theme-toggle {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+
+  // Menu mobile (dropdown)
+  .mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideDown 0.3s ease;
+
+    @include desktop {
+      display: none;
+    }
+
+    // Fundo conforme tema
+    &.light-menu {
+      background-color: rgba(76, 175, 80, 0.98);
+    }
+
+    &.dark-menu {
+      background-color: rgba(45, 45, 45, 0.98);
+    }
+
+    button {
+      @include button-reset;
+      color: white;
+      width: 100%;
+      text-align: center;
+      margin: 8px 0;
+      padding: 12px;
+      font-size: 16px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
+      }
+
+      &.active {
+        background-color: rgba(56, 142, 60, 0.9);
+      }
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 10px 0;
+    }
+  }
+}

@@ -1,19 +1,13 @@
 import React from 'react';
+import './Footer.scss';
 
-const Footer = () => {
+const Footer = ({ theme = 'dark' }) => {  // theme opcional, padrão escuro
   return (
-    <footer style={{
-      textAlign: 'center',
-      padding: '15px',
-      backgroundColor: 'rgba(51, 51, 51, 0.95)',
-      color: 'white',
-      position: 'fixed',
-      bottom: 0,
-      width: '100%',
-      backdropFilter: 'blur(10px)',
-      fontSize: '14px'
-    }}>
-      Criado por Lord Neco Real, desafio empower + vai na web 2026
+    <footer className={`custom-footer ${theme === 'light' ? 'light-mode' : ''}`}>
+      <p className="footer-text">
+        Criado por <span className="author-name">Lord Neco Real</span>, 
+        desafio <span className="challenge">empower + vai na web 2026</span>
+      </p>
     </footer>
   );
 };

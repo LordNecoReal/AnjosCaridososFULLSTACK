@@ -1,0 +1,297 @@
+// Variáveis
+$primary-color: #4caf50;
+$primary-dark: #388e3c;
+$text-light: #333;
+$text-dark: #e0e0e0;
+$bg-light: #ffffff;
+$bg-dark: #1e1e1e;
+$border-light: #e0e0e0;
+$border-dark: #444;
+$transition-default: all 0.3s ease;
+
+// Mixins responsivos
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Animações
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Página Principal
+.principal-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeInUp 0.6s ease;
+
+  @include mobile {
+    padding: 15px;
+  }
+
+  // Card principal
+  .principal-card {
+    background: $bg-light;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    transition: $transition-default;
+
+    @include mobile {
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    // Modo escuro
+    body.dark-mode & {
+      background: $bg-dark;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    // Títulos principais
+    h2 {
+      color: $primary-color;
+      font-size: clamp(24px, 5vw, 32px);
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: $primary-color;
+        border-radius: 2px;
+      }
+
+      @include mobile {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+    }
+
+    h3 {
+      color: $primary-color;
+      font-size: clamp(20px, 4vw, 24px);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      @include mobile {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+    }
+
+    h4 {
+      font-size: clamp(16px, 3.5vw, 18px);
+      margin-bottom: 10px;
+      color: inherit;
+      font-weight: 600;
+
+      @include mobile {
+        font-size: 16px;
+      }
+    }
+
+    // Parágrafos
+    p {
+      line-height: 1.6;
+      margin-bottom: 10px;
+      font-size: clamp(14px, 3vw, 16px);
+      text-align: justify;
+
+      @include mobile {
+        line-height: 1.5;
+        text-align: left;
+      }
+    }
+
+    // Seções
+    .section {
+      margin-top: 30px;
+      animation: slideInLeft 0.5s ease;
+
+      &:nth-child(even) {
+        animation: slideInRight 0.5s ease;
+      }
+
+      @include mobile {
+        margin-top: 25px;
+      }
+    }
+
+    // Funcionalidades
+    .funcionalidade-item {
+      margin-top: 20px;
+      padding-left: 15px;
+      border-left: 3px solid $primary-color;
+      transition: $transition-default;
+
+      &:hover {
+        transform: translateX(5px);
+      }
+
+      @include mobile {
+        margin-top: 15px;
+        padding-left: 10px;
+      }
+    }
+
+    // Listas
+    ol, ul {
+      margin-left: 25px;
+      line-height: 1.8;
+
+      @include mobile {
+        margin-left: 20px;
+        line-height: 1.6;
+      }
+
+      li {
+        margin-bottom: 8px;
+        font-size: clamp(14px, 3vw, 15px);
+
+        @include mobile {
+          margin-bottom: 6px;
+        }
+      }
+    }
+
+    ul {
+      list-style-type: none;
+      
+      li {
+        position: relative;
+        padding-left: 25px;
+        
+        &::before {
+          content: '✨';
+          position: absolute;
+          left: 0;
+          color: $primary-color;
+        }
+      }
+    }
+
+    // Tutorial seções
+    .tutorial-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(76, 175, 80, 0.05);
+      border-radius: 8px;
+      transition: $transition-default;
+
+      &:hover {
+        background: rgba(76, 175, 80, 0.1);
+        transform: translateY(-2px);
+      }
+
+      @include mobile {
+        padding: 12px;
+      }
+
+      body.dark-mode & {
+        background: rgba(76, 175, 80, 0.1);
+        
+        &:hover {
+          background: rgba(76, 175, 80, 0.15);
+        }
+      }
+    }
+
+    // Grid para organizar conteúdo (se necessário)
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+
+      @include mobile {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+
+    // Dicas importantes
+    .dicas-list {
+      background: rgba(76, 175, 80, 0.08);
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+
+      @include mobile {
+        padding: 15px;
+      }
+
+      body.dark-mode & {
+        background: rgba(76, 175, 80, 0.12);
+      }
+    }
+  }
+}
+
+// Badge/ícone decorativo (opcional)
+.decorative-icon {
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}

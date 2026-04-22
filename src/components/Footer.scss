@@ -1,0 +1,90 @@
+// Variáveis do Footer
+$footer-dark-bg: rgba(51, 51, 51, 0.95);
+$footer-light-bg: rgba(68, 68, 68, 0.95);
+$footer-text: #ffffff;
+$transition-default: all 0.3s ease;
+
+// Mixins responsivos
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+// Estilos principais do Footer
+.custom-footer {
+  text-align: center;
+  padding: 15px 20px;
+  color: $footer-text;
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  transition: $transition-default;
+  width: 100%;
+  
+  // IMPORTANTE: Mudando de fixed para relative para não cobrir conteúdo
+  // Se você PREFERIR fixed, mude para 'fixed' e adicione margin-bottom no main
+  position: relative;
+  bottom: auto;
+  
+  // Fundo conforme tema (escuro padrão)
+  background-color: $footer-dark-bg;
+
+  // Modo claro (se ativar no futuro)
+  &.light-mode {
+    background-color: $footer-light-bg;
+  }
+
+  // Texto do copyright
+  .footer-text {
+    margin: 0;
+    font-size: clamp(11px, 3vw, 14px);
+    
+    // Destaque para o nome
+    .author-name {
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    
+    // Destaque para o desafio
+    .challenge {
+      color: #ffd700;
+      font-weight: 500;
+    }
+  }
+
+  // Responsividade
+  @include mobile {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+
+  @include tablet {
+    padding: 13px 18px;
+  }
+}
+
+// Animação suave ao aparecer
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-footer {
+  animation: fadeInUp 0.5s ease;
+}
