@@ -1,0 +1,371 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+}
+
+/* Background para Light Mode */
+body.light-mode {
+  background-image: url('/anjoscaridosos.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #333;
+}
+
+body.light-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: -1;
+}
+
+/* Background para Dark Mode */
+body.dark-mode {
+  background-image: url('/anjoscaridosos.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #e0e0e0;
+}
+
+body.dark-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: -1;
+}
+
+body.light-mode .card {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+body.dark-mode .card {
+  background-color: rgba(45, 45, 45, 0.95);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.card {
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+  transition: background-color 0.3s;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #da190b;
+}
+
+.btn-warning {
+  background-color: #ff9800;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #e68900;
+}
+
+input, select, textarea {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #3d3d3d;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+body.light-mode input:focus,
+body.light-mode select:focus,
+body.light-mode textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+body.light-mode table {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #333;
+}
+
+body.dark-mode table {
+  background-color: rgba(45, 45, 45, 0.95);
+  color: #e0e0e0;
+}
+
+body.light-mode th {
+  background-color: #f2f2f2;
+}
+
+body.dark-mode th {
+  background-color: #3d3d3d;
+}
+
+body.light-mode tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+body.dark-mode tr:nth-child(even) {
+  background-color: #383838;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  border-radius: 8px;
+  padding: 30px;
+  min-width: 400px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 2000;
+  min-width: 300px;
+}
+
+.alert-success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.alert-warning {
+  background-color: #ff9800;
+  color: white;
+}
+
+.alert-danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+}
+
+.vaga-esgotada {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.vaga-disponivel {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.edit-icon, .delete-icon {
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 18px;
+}
+
+.edit-icon:hover {
+  color: #ff9800;
+}
+
+.delete-icon:hover {
+  color: #f44336;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.theme-toggle {
+  background: none;
+  font-size: 24px;
+  padding: 5px 10px;
+}
+
+/* Estilos para Mobile */
+@media (max-width: 768px) {
+  .header-buttons {
+    display: none !important;
+  }
+  
+  .mobile-menu-btn {
+    display: block !important;
+  }
+  
+  .card {
+    margin: 10px !important;
+    padding: 15px !important;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px !important;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  th, td {
+    padding: 8px !important;
+  }
+  
+  .modal-content {
+    min-width: 90% !important;
+    max-width: 90% !important;
+    margin: 10px !important;
+    padding: 20px !important;
+  }
+  
+  button {
+    padding: 8px 16px !important;
+  }
+  
+  h2 {
+    font-size: 20px !important;
+  }
+  
+  h3 {
+    font-size: 18px !important;
+  }
+}
+
+/* Estilos para Desktop */
+@media (min-width: 769px) {
+  .mobile-menu {
+    display: none !important;
+  }
+  
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+
+/* Ajuste para o footer em mobile */
+@media (max-width: 768px) {
+  footer {
+    font-size: 12px !important;
+    padding: 10px !important;
+    position: relative !important;
+    margin-top: 20px;
+  }
+  
+  body {
+    padding-bottom: 0 !important;
+  }
+}
