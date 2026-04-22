@@ -14,7 +14,13 @@ const CadastroVoluntarios = () => {
     'Coordenador': 3
   });
   
+  const [limitesOriginais, setLimitesOriginais] = useState({});
   const [showLimitesEditor, setShowLimitesEditor] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+  const [showLeaveAlert, setShowLeaveAlert] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
+  
   const [formData, setFormData] = useState({
     nome: '',
     telefone: '',
@@ -37,9 +43,31 @@ const CadastroVoluntarios = () => {
     carregarCargosInfo();
     const savedLimites = localStorage.getItem('limitesCargos');
     if (savedLimites) {
-      setLimitesCargos(JSON.parse(savedLimites));
+      const parsed = JSON.parse(savedLimites);
+      setLimitesCargos(parsed);
+      setLimitesOriginais(JSON.parse(JSON.stringify(parsed)));
+    } else {
+      setLimitesOriginais(JSON.parse(JSON.stringify(limitesCargos)));
     }
   }, []);
+
+  // Detectar mudanças nos limites
+  useEffect(() => {
+    const hasChanges = JSON.stringify(limitesCargos) !== JSON.stringify(limitesOriginais);
+    setHasUnsavedChanges(hasChanges);
+  }, [limitesCargos, limitesOriginais]);
+
+  // Prevenir saída sem salvar
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = 'Você tem alterações não salvas. Tem certeza que deseja sair?';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
 
   const carregarCargosInfo = async () => {
     try {
@@ -71,9 +99,42 @@ const CadastroVoluntarios = () => {
     if (!isNaN(novoLimiteNum) && novoLimiteNum >= 0) {
       const novosLimites = { ...limitesCargos, [cargo]: novoLimiteNum };
       setLimitesCargos(novosLimites);
-      localStorage.setItem('limitesCargos', JSON.stringify(novosLimites));
-      carregarCargosInfo();
     }
+  };
+
+  const handleSaveLimites = () => {
+    setShowConfirmAlert(true);
+  };
+
+  const confirmSaveLimites = () => {
+    localStorage.setItem('limitesCargos', JSON.stringify(limitesCargos));
+    setLimitesOriginais(JSON.parse(JSON.stringify(limitesCargos)));
+    setHasUnsavedChanges(false);
+    setShowConfirmAlert(false);
+    mostrarAlerta('✅ Alterações salvas com sucesso!', 'success');
+    carregarCargosInfo();
+  };
+
+  const handleCancelLimites = () => {
+    if (hasUnsavedChanges) {
+      setShowLeaveAlert(true);
+      setPendingAction('cancel');
+    } else {
+      cancelChanges();
+    }
+  };
+
+  const cancelChanges = () => {
+    setLimitesCargos(JSON.parse(JSON.stringify(limitesOriginais)));
+    setHasUnsavedChanges(false);
+    setShowLeaveAlert(false);
+    setPendingAction(null);
+    mostrarAlerta('❌ Alterações canceladas', 'warning');
+  };
+
+  const handleLeaveWithoutSave = () => {
+    setShowLeaveAlert(false);
+    cancelChanges();
   };
 
   const adicionarNovoCargo = () => {
@@ -84,9 +145,7 @@ const CadastroVoluntarios = () => {
       if (!isNaN(novoLimite)) {
         const novosLimites = { ...limitesCargos, [novoCargo]: novoLimite };
         setLimitesCargos(novosLimites);
-        localStorage.setItem('limitesCargos', JSON.stringify(novosLimites));
-        carregarCargosInfo();
-        mostrarAlerta(`✅ Cargo "${novoCargo}" adicionado com limite de ${novoLimite}`, 'success');
+        mostrarAlerta(`✅ Cargo "${novoCargo}" cadastrado com sucesso!`, 'success');
       }
     } else if (novoCargo && limitesCargos[novoCargo]) {
       mostrarAlerta('❌ Este cargo já existe!', 'danger');
@@ -246,9 +305,27 @@ const CadastroVoluntarios = () => {
                 </tbody>
               </table>
             </div>
+            
+            {/* Botões de ação */}
+            <div style={{ display: 'flex', gap: '10px', marginTop: '15px', justifyContent: 'flex-end' }}>
+              <button 
+                onClick={handleCancelLimites}
+                className="btn-warning"
+              >
+                ❌ Cancelar
+              </button>
+              <button 
+                onClick={handleSaveLimites}
+                className="btn-primary"
+              >
+                💾 Salvar Alterações
+              </button>
+            </div>
+            
             <button 
               onClick={adicionarNovoCargo}
-              className="btn-primary btn-add-cargo"
+              className="btn-primary"
+              style={{ marginTop: '15px', width: '100%' }}
             >
               + Adicionar Novo Cargo
             </button>
@@ -291,7 +368,7 @@ const CadastroVoluntarios = () => {
           </div>
         )}
 
-        {/* Formulário */}
+        {/* Formulário de Cadastro */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Foto do Voluntário</label>
@@ -420,14 +497,48 @@ const CadastroVoluntarios = () => {
         </form>
       </div>
 
-      {/* Modal de Alertas */}
+      {/* Modal de Confirmação para Salvar */}
+      {showConfirmAlert && (
+        <div className="modal-overlay" onClick={() => setShowConfirmAlert(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>⚠️ Confirmar Alterações</h3>
+            <p>Tem certeza que deseja salvar as alterações nos limites dos cargos?</p>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '20px', justifyContent: 'center' }}>
+              <button className="btn-primary" onClick={confirmSaveLimites}>
+                ✅ Sim, salvar
+              </button>
+              <button className="btn-warning" onClick={() => setShowConfirmAlert(false)}>
+                ❌ Não, cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmação para Sair sem Salvar */}
+      {showLeaveAlert && (
+        <div className="modal-overlay" onClick={() => setShowLeaveAlert(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>⚠️ Alterações não salvas</h3>
+            <p>Você ainda tem alterações não feitas. Deseja cancelar as alterações?</p>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '20px', justifyContent: 'center' }}>
+              <button className="btn-danger" onClick={handleLeaveWithoutSave}>
+                ✅ Sim, cancelar
+              </button>
+              <button className="btn-primary" onClick={() => setShowLeaveAlert(false)}>
+                ❌ Não, continuar editando
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Alert */}
       {showAlert && (
-        <div className="alert-overlay" onClick={() => setShowAlert(false)}>
-          <div className={`alert-box alert-${alertType}`} onClick={(e) => e.stopPropagation()}>
-            <p>{alertMessage}</p>
-            <button onClick={() => setShowAlert(false)} className="btn-primary">
-              OK
-            </button>
+        <div className="toast-notification">
+          <div className={`toast-content toast-${alertType}`}>
+            <span className="toast-message">{alertMessage}</span>
+            <span className="toast-close" onClick={() => setShowAlert(false)}>✕</span>
           </div>
         </div>
       )}
